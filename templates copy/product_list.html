@@ -1,0 +1,40 @@
+{% extends 'crud_app/base.html' %}
+{% load humanize %}
+{% block title %}รายการสินค้า{% endblock %}
+
+{% block content %}
+<h1>รายการสินค้า</h1>
+<a href="{% url 'product_create' %}">เพิ่มข้อมูลสินค้าใหม่</a>
+<br><br>
+<table border=1>
+  <thead>
+    <tr>
+      <th>รูปสินค้า</th>
+      <th>ชื่อสินค้า</th>
+      <th>ราคาสินค้า</th>
+      <th>บริษัท</th>
+      <th>ด าเนินการ</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product in products %}
+    <tr>
+      <td>
+        {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" width="100">
+        {% else %}
+        ไม่มีรูป
+        {% endif %}
+      </td>
+      <td>{{ product.name }}</td>
+      <td>{{ product.price|intcomma }} บาท</td>
+      <td>{{ product.company.name }}</td>
+      <td>
+        <a href="{% url 'product_update' product.pk %}">Edit</a> |
+        <a href="{% url 'product_delete' product.pk %}">Delete</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

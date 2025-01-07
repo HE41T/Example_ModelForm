@@ -1,0 +1,15 @@
+{% extends 'crud_app/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>ยินดีต้อนรับเข้าสู่ เว็บจัดการข้อมูลบริษัทและสินค้า</h1>
+<p>ระบบจัดการข้อมูลบริษัทและสินค้านี้ถูกพัฒนาด้วยเฟรมเวิร์ก Django</p>
+<div>
+  <h2>เลือกจัดการข้อมูลต่อไปนี้</h2>
+  <ul>
+    <li><a href="{% url 'company_list' %}">รายการบริษัท</a></li>
+    <li><a href="{% url 'product_list' %}">รายการสินค้า</a></li>
+  </ul>
+</div>
+{% endblock %}

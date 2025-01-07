@@ -1,0 +1,20 @@
+{% extends 'crud_app/base.html' %}
+{% block title %}จัดการข้อมูลสินค้า{% endblock %}
+{% block content %}
+<h1>{% if form.instance.pk %}แก้ไขข้อมูล{% else %}เพิ่มข้อมูล{% endif %}สินค้า</h1>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">บันทึก</button>
+</form>
+{% if errors %}
+<div style="color: red;">
+  <ul>
+    {% for field, error_list in errors.items %}
+    <li>{{ field }}: {{ error_list|join:', ' }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+<a href="{% url 'product_list' %}">กลับไปหน้าแสดงรายการสินค้า</a>
+{% endblock %}

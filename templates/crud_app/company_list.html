@@ -1,0 +1,30 @@
+{% extends 'crud_app/base.html' %}
+{% block title %}รายชื่อบริษัท{% endblock %}
+
+{% block content %}
+<h1>รายชื่อบริษัท</h1>
+<a href="{% url 'company_create' %}">เพิ่มข้อมูลบริษัทใหม่</a>
+<br>
+<br>
+<table border=1>
+  <thead>
+    <tr>
+      <th>ชื่อบริษัท</th>
+      <th>ที่อยู่</th>
+      <th>ดำเนินการ</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for company in companies %}
+    <tr>
+      <td>{{ company.name }}</td>
+      <td>{{ company.address }}</td>
+      <td>
+        <a href="{% url 'company_update' company.pk %}">แก้ไข</a> |
+        <a href="{% url 'company_delete' company.pk %}">ลบ</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
