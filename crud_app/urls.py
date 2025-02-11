@@ -1,21 +1,19 @@
 from django.urls import path
-from .views import (
-  HomeView,
-  CompanyListView, CompanyCreateView, CompanyUpdateView, CompanyDeleteView,
-  ProductListView, ProductCreateView, ProductUpdateView, ProductDeleteView
-)
-
+from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 urlpatterns = [
-  path('', HomeView.as_view(), name='home'),
+# Home page
+path('', views.home, name='home'),
 
-  # Company URLs
-  path('companies/', CompanyListView.as_view(), name='company_list'),
-  path('companies/create/', CompanyCreateView.as_view(), name='company_create'),
-  path('companies/update/<int:pk>/', CompanyUpdateView.as_view(), name='company_update'),
-  path('companies/delete/<int:pk>/', CompanyDeleteView.as_view(), name='company_delete'),
-  # Product URLs
-  path('products/', ProductListView.as_view(), name='product_list'),
-  path('products/create/', ProductCreateView.as_view(), name='product_create'),
-  path('products/update/<int:pk>/', ProductUpdateView.as_view(), name='product_update'),
-  path('products/delete/<int:pk>/', ProductDeleteView.as_view(), name='product_delete'),
-]
+# Company URLs
+path('companies/', views.company_list, name='company_list'),
+path('companies/create/', views.company_create, name='company_create'),
+path('companies/update/<int:pk>/', views.company_update, name='company_update'),
+path('companies/delete/<int:pk>/', views.company_delete, name='company_delete'),
+# Product URLs
+path('products/', views.product_list, name='product_list'),
+path('products/create/', views.product_create, name='product_create'),
+path('products/update/<int:pk>/', views.product_update, name='product_update'),
+path('products/delete/<int:pk>/', views.product_delete, name='product_delete'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,62 +1,96 @@
-from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse_lazy
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Company, Product
 from .forms import CompanyForm, ProductForm
+
+
 # หน้าแรก
-class HomeView(TemplateView):
-  template_name = 'crud_app/home.html'
+def home(request):
+  return render(request, 'crud_app/home.html')
 
-# Company Views
-class CompanyListView(ListView):
-  model = Company
-  template_name = 'crud_app/company_list.html'
-  context_object_name = 'companies'
 
-class CompanyCreateView(CreateView):
-  model = Company
-  form_class = CompanyForm
-  template_name = 'crud_app/company_form.html'
-  success_url = reverse_lazy('company_list')
+# แสดงรายชื่อบริษัท
+def company_list(request):
+  companies = Company.objects.all()
+  return render(request, 'crud_app/company_list.html', {'companies': companies})
 
-class CompanyUpdateView(UpdateView):
-  model = Company
-  form_class = CompanyForm
-  template_name = 'crud_app/company_form.html'
-  success_url = reverse_lazy('company_list')
 
-class CompanyDeleteView(DeleteView):
-  model = Company
-  template_name = 'crud_app/company_confirm_delete.html'
-  success_url = reverse_lazy('company_list')
+# แสดงฟอร์มเพิ่มข้อมูลบริษัท
+def company_create(request):
+  if request.method == 'POST':
+    form = CompanyForm(request.POST)
+    if form.is_valid():
+      form.save()
+      return redirect('company_list')
+    else:
+      return render(request, 'crud_app/company_form.html', {'form': form, 'errors': form.errors})
+  else:
+    form = CompanyForm()
+  return render(request, 'crud_app/company_form.html', {'form': form})
 
-# Product Views
-class ProductListView(ListView):
-  model = Product
-  template_name = 'crud_app/product_list.html'
-  context_object_name = 'products'
-  def get_queryset(self):
-    # Use `select_related` for better performance
-    return Product.objects.select_related('company').all()
-class ProductCreateView(CreateView):
-  model = Product
-  form_class = ProductForm
-  template_name = 'crud_app/product_form.html'
-  success_url = reverse_lazy('product_list')
-  def form_valid(self, form):
-    form.instance.image = self.request.FILES.get('image')
-    return super().form_valid(form)
 
-class ProductUpdateView(UpdateView):
-  model = Product
-  form_class = ProductForm
-  template_name = 'crud_app/product_form.html'
-  success_url = reverse_lazy('product_list')
-  def form_valid(self, form):
-    form.instance.image = self.request.FILES.get('image')
-    return super().form_valid(form)
+# แสดงฟอร์มแก้ไขข้อมูลบริษัท
+def company_update(request, pk):
+  company = get_object_or_404(Company, pk=pk)
+  if request.method == 'POST':
+    form = CompanyForm(request.POST, instance=company)
+    if form.is_valid():
+      form.save()
+      return redirect('company_list')
+    else:
+      return render(request, 'crud_app/company_form.html', {'form': form, 'errors': form.errors})
+  else:
+    form = CompanyForm(instance=company)
+  return render(request, 'crud_app/company_form.html', {'form': form})
 
-class ProductDeleteView(DeleteView):
-  model = Product
-  template_name = 'crud_app/product_confirm_delete.html'
-  success_url = reverse_lazy('product_list')
+
+# แสดงหน้าลบข้อมูลบริษัท
+def company_delete(request, pk):
+  company = get_object_or_404(Company, pk=pk)
+  if request.method == 'POST':
+    company.delete()
+    return redirect('company_list')
+  return render(request, 'crud_app/company_confirm_delete.html', {'company': company})
+
+
+# แสดงรายชื่อสินค้า
+def product_list(request):
+  products = Product.objects.select_related('company').all()
+  return render(request, 'crud_app/product_list.html', {'products': products})
+
+
+# แสดงฟอร์มเพิ่มข้อมูลสินค้า
+def product_create(request):
+  if request.method == 'POST':
+    form = ProductForm(request.POST, request.FILES)
+    if form.is_valid():
+      form.save()
+      return redirect('product_list')
+    else:
+      return render(request, 'crud_app/product_form.html', {'form': form, 'errors': form.errors})
+  else:
+    form = ProductForm()
+  return render(request, 'crud_app/product_form.html', {'form': form})
+
+
+# แสดงฟอร์มแก้ไขข้อมูลสินค้า
+def product_update(request, pk):
+  product = get_object_or_404(Product, pk=pk)
+  if request.method == 'POST':
+    form = ProductForm(request.POST, request.FILES, instance=product)
+    if form.is_valid():
+      form.save()
+      return redirect('product_list')
+    else:
+      return render(request, 'crud_app/product_form.html', {'form': form, 'errors': form.errors})
+  else:
+    form = ProductForm(instance=product)
+  return render(request, 'crud_app/product_form.html', {'form': form})
+
+
+# แสดงหน้าลบข้อมูลสินค้า
+def product_delete(request, pk):
+  product = get_object_or_404(Product, pk=pk)
+  if request.method == 'POST':
+    product.delete()
+    return redirect('product_list')
+  return render(request, 'crud_app/product_confirm_delete.html', {'product': product})

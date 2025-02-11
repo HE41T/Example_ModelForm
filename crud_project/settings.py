@@ -119,7 +119,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
+# ก าหนดพาธส าหรับการให้บริการไฟล์static
 STATIC_URL = '/static/'
+# ระบุว่า Django จะรวบรวมไฟล์ static ทั้งหมดที่ไหนเมื่อเรียกใช้ค าสั่ง collectstatic (ส าหรับขึ้น production)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# แจ้งให้ Django ทราบว่าควรค้นหาไฟล์static ที่ไหนในระหว่างการพัฒนา
+STATICFILES_DIRS = [
+os.path.join(BASE_DIR, 'crud_app', 'static'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
