@@ -1,4 +1,27 @@
-{% extends 'crud_app/base.html' %} 
+{% extends 'crud_app/base.html' %}
+{% block title %}หน้าแรก{% endblock %}
+{% block content %}
+<div class="container text-center mt-5">
+  <div class="card shadow-lg p-5">
+    <h1 class="mb-4 text-primary fw-bold">ยินดีต้อนรับสู่ระบบจัดการข้อมูล</h1>
+    <p class="lead text-muted">
+      ระบบนี้ช่วยให้คุณสามารถจัดการข้อมูลบริษัทและสินค้าได้อย่างมีประสิทธิภาพ
+    </p>
+    <div class="mt-4 d-flex justify-content-center gap-3">
+      <a href="{% url 'company_list' %}" class="btn btn-primary btn-lg shadow-sm px-4 py-2">
+        <i class="fas fa-building me-2"></i> จัดการบริษัท
+      </a>
+      <a href="{% url 'product_list' %}" class="btn btn-success btn-lg shadow-sm px-4 py-2">
+        <i class="fas fa-box-open me-2"></i> จัดการสินค้า
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+
+{% comment %} {% extends 'crud_app/base.html' %} 
 {% block title %}Home{% endblock %} 
 {% block content %}
 <div class="card shadow p-4 text-center">
@@ -22,4 +45,4 @@
     >
   </div>
 </div>
-{% endblock %}
+{% endblock %} {% endcomment %}

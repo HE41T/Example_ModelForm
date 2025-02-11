@@ -1,4 +1,31 @@
 {% extends 'crud_app/base.html' %}
+{% block title %}เพิ่ม/แก้ไขสินค้า{% endblock %}
+{% block content %}
+<div class="card shadow-lg p-4">
+  <h1 class="mb-4 text-primary fw-bold">
+    {% if form.instance.pk %}แก้ไขสินค้า{% else %}เพิ่มสินค้าใหม่{% endif %}
+  </h1>
+  <form method="post" class="needs-validation" novalidate>
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ form.as_p }}
+    </div>
+    <button type="submit" class="btn btn-primary shadow-sm">บันทึก</button>
+    <a href="{% url 'product_list' %}" class="btn btn-secondary shadow-sm">ยกเลิก</a>
+  </form>
+  {% if errors %}
+  <div class="alert alert-danger mt-3">
+    <ul>
+      {% for field, error_list in errors.items %}
+      <li>{{ field }}: {{ error_list|join:', ' }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% comment %} {% extends 'crud_app/base.html' %}
 {% block title %}จัดการข้อมูลสินค้า{% endblock %}
 {% block content %}
 <h1>{% if form.instance.pk %}แก้ไขข้อมูล{% else %}เพิ่มข้อมูล{% endif %}สินค้า</h1>
@@ -17,4 +44,4 @@
 </div>
 {% endif %}
 <a href="{% url 'product_list' %}">กลับไปหน้าแสดงรายการสินค้า</a>
-{% endblock %}
+{% endblock %} {% endcomment %}

@@ -1,4 +1,4 @@
-{% extends 'crud_app/base.html' %}
+<!-- {% extends 'crud_app/base.html' %}
 {% block title %}รายชื่อบริษัท{% endblock %}
 
 {% block content %}
@@ -27,4 +27,21 @@
     {% endfor %}
   </tbody>
 </table>
+{% endblock %} -->
+
+{% extends 'crud_app/base.html' %} 
+{% block title %}Home{% endblock %} 
+{% block content %}
+<div class="card shadow-lg p-5 text-center">
+  <h1 class="mb-4 text-primary fw-bold">ยินดีต้อนรับสู่ ระบบจัดการข้อมูล</h1>
+  <p class="lead text-muted">
+    ระบบนี้ถูกพัฒนาด้วย <strong>Django</strong> เพื่อช่วยจัดการข้อมูลบริษัทและสินค้าได้อย่างมีประสิทธิภาพ
+  </p>
+  <hr />
+  <h2 class="mb-4">เมนูการจัดการ</h2>
+  <div class="d-grid gap-3 col-md-6 mx-auto">
+    <a href="{% url 'company_list' %}" class="btn btn-primary btn-lg shadow-sm">รายการบริษัท</a>
+    <a href="{% url 'product_list' %}" class="btn btn-success btn-lg shadow-sm">รายการสินค้า</a>
+  </div>
+</div>
 {% endblock %}
